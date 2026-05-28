@@ -1,0 +1,72 @@
+{
+  "image": "enemy-balls-atlas-v1.png",
+  "source": "enemy-balls-sheet-v1.png",
+  "columns": 4,
+  "rows": 6,
+  "frameWidth": 256,
+  "frameHeight": 256,
+  "frameCountPerRow": 4,
+  "enemies": [
+    {
+      "id": "normal",
+      "row": 0,
+      "name": "Normal Loose-Screw Ball",
+      "hp": 1,
+      "reward": 5,
+      "speed": 54
+    },
+    {
+      "id": "regrow",
+      "row": 1,
+      "name": "Regrow Pyramid Ball",
+      "hp": 2,
+      "reward": 8,
+      "speed": 48,
+      "traits": [
+        "regrow"
+      ]
+    },
+    {
+      "id": "lead",
+      "row": 2,
+      "name": "Lead Metal Ball",
+      "hp": 3,
+      "reward": 10,
+      "speed": 40,
+      "traits": [
+        "sharpImmune"
+      ]
+    },
+    {
+      "id": "ceramic",
+      "row": 3,
+      "name": "Ceramic Ball",
+      "hp": 4,
+      "reward": 14,
+      "speed": 43
+    },
+    {
+      "id": "frozen",
+      "row": 4,
+      "name": "Frozen Ball",
+      "hp": 3,
+      "reward": 12,
+      "speed": 38,
+      "traits": [
+        "sharpImmune",
+        "ice"
+      ]
+    },
+    {
+      "id": "camouflage",
+      "row": 5,
+      "name": "Camouflage Ball",
+      "hp": 2,
+      "reward": 12,
+      "speed": 50,
+      "traits": [
+        "camouflage"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="2400" viewBox="0 0 1800 2400">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#113c2f"/>
+      <stop offset="0.46" stop-color="#1f6b43"/>
+      <stop offset="1" stop-color="#19385d"/>
+    </linearGradient>
+    <linearGradient id="path" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#d8a960"/>
+      <stop offset="1" stop-color="#9e6830"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" x2="1">
+      <stop offset="0" stop-color="#f1f3f3"/>
+      <stop offset="0.55" stop-color="#8e999c"/>
+      <stop offset="1" stop-color="#4a565b"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#18252d"/>
+      <stop offset="1" stop-color="#0f171e"/>
+    </linearGradient>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="7" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <style>
+      .title { font: 900 104px Arial, sans-serif; fill: #fff; letter-spacing: 0; }
+      .subtitle { font: 700 34px Arial, sans-serif; fill: #dff7e8; }
+      .section { font: 900 38px Arial, sans-serif; fill: #fff; letter-spacing: 0; }
+      .body { font: 600 28px Arial, sans-serif; fill: #e9f1f3; }
+      .small { font: 600 24px Arial, sans-serif; fill: #d5e5e8; }
+      .label { font: 900 28px Arial, sans-serif; fill: #fff; }
+      .pill { font: 900 24px Arial, sans-serif; fill: #11181d; }
+      .accent { fill: #93f15f; }
+      .yellow { fill: #ffd453; }
+      .danger { fill: #ff754f; }
+      .ice { fill: #9de8ff; }
+      .panel { fill: url(#panel); stroke: #41515b; stroke-width: 4; rx: 28; filter: url(#shadow); }
+      .mini { fill: #22323a; stroke: #516873; stroke-width: 3; rx: 20; }
+      .thin { stroke: #d4e1e3; stroke-width: 4; stroke-linecap: round; }
+      .path { fill: none; stroke: url(#path); stroke-width: 120; stroke-linecap: round; stroke-linejoin: round; opacity: 0.9; }
+      .pathLine { fill: none; stroke: #8b5b29; stroke-width: 8; stroke-dasharray: 18 22; opacity: 0.55; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="2400" fill="url(#bg)"/>
+  <path class="path" d="M-80 460 C260 330 440 650 725 520 C1000 394 1170 640 1015 830 C835 1050 450 890 350 1170 C255 1432 760 1550 1110 1420 C1390 1315 1595 1460 1700 1715 C1790 1930 1580 2170 1835 2310"/>
+  <path class="pathLine" d="M-80 460 C260 330 440 650 725 520 C1000 394 1170 640 1015 830 C835 1050 450 890 350 1170 C255 1432 760 1550 1110 1420 C1390 1315 1595 1460 1700 1715 C1790 1930 1580 2170 1835 2310"/>
+
+  <rect x="96" y="58" width="1608" height="206" rx="34" fill="#121d24" stroke="#445762" stroke-width="5" filter="url(#shadow)"/>
+  <text x="900" y="152" text-anchor="middle" class="title">Screw Loose Balls</text>
+  <text x="900" y="214" text-anchor="middle" class="subtitle">Funny tower defense notes from Adrian's game idea</text>
+
+  <g transform="translate(120 328)">
+    <rect class="panel" width="720" height="330"/>
+    <text x="34" y="60" class="section">Intro And Goal</text>
+    <text x="42" y="116" class="body">
+      <tspan x="42" dy="0">Loose-screw balls roll through a house,</tspan>
+      <tspan x="42" dy="38">out to the garden, onto a trail,</tspan>
+      <tspan x="42" dy="38">and toward the exit.</tspan>
+      <tspan x="42" dy="52">Stop them before they escape.</tspan>
+      <tspan x="42" dy="38">Funny, not too spooky.</tspan>
+    </text>
+    <rect x="430" y="238" width="230" height="58" rx="24" fill="#ffd453"/>
+    <text x="545" y="276" text-anchor="middle" class="pill">EXIT = lose lives</text>
+  </g>
+
+  <g transform="translate(960 328)">
+    <rect class="panel" width="720" height="330"/>
+    <text x="34" y="60" class="section">Good Side Rules</text>
+    <text x="42" y="116" class="body">
+      <tspan x="42" dy="0">You are basically all the towers.</tspan>
+      <tspan x="42" dy="42">Towers and heroes last forever.</tspan>
+      <tspan x="42" dy="38">They only leave if you sell them.</tspan>
+      <tspan x="42" dy="52">Only towers and heroes can have pets.</tspan>
+      <tspan x="42" dy="38">Enemies never get pets.</tspan>
+    </text>
+  </g>
+
+  <g transform="translate(120 730)">
+    <rect class="panel" width="1560" height="410"/>
+    <text x="42" y="64" class="section">Heroes And Support</text>
+
+    <g transform="translate(40 106)">
+      <rect class="mini" width="465" height="250"/>
+      <circle cx="78" cy="82" r="44" fill="#ffb83e" stroke="#fff" stroke-width="5"/>
+      <path d="M38 82 h80 M78 42 v80" stroke="#fff" stroke-width="8" opacity="0.65"/>
+      <text x="142" y="56" class="label">Liam</text>
+      <text x="142" y="98" class="small">
+        <tspan x="142" dy="0">Basketball hero</tspan>
+        <tspan x="142" dy="34">Blows balls backward</tspan>
+        <tspan x="142" dy="34">Removes regrow</tspan>
+        <tspan x="142" dy="34">Ability: 2 rounds</tspan>
+        <tspan x="142" dy="34">Knowledge: 4 rounds</tspan>
+      </text>
+    </g>
+
+    <g transform="translate(548 106)">
+      <rect class="mini" width="465" height="250"/>
+      <rect x="42" y="46" width="96" height="72" rx="12" fill="#202b32" stroke="#80f0ff" stroke-width="5"/>
+      <path d="M54 136 h72" class="thin" stroke="#80f0ff"/>
+      <text x="162" y="56" class="label">Hacker Hossein</text>
+      <text x="162" y="98" class="small">
+        <tspan x="162" dy="0">Level 3: deflates</tspan>
+        <tspan x="162" dy="34">one extra layer</tspan>
+        <tspan x="162" dy="34">for 4 seconds</tspan>
+        <tspan x="162" dy="34">Then rests 2 seconds</tspan>
+        <tspan x="162" dy="34">Level 10: downgrades</tspan>
+      </text>
+    </g>
+
+    <g transform="translate(1056 106)">
+      <rect class="mini" width="465" height="250"/>
+      <circle cx="90" cy="84" r="50" fill="#73d38a" stroke="#eaffea" stroke-width="5"/>
+      <path d="M62 84 h56 M90 56 v56" stroke="#142018" stroke-width="10"/>
+      <text x="164" y="56" class="label">Engineer Adrian</text>
+      <text x="164" y="98" class="small">
+        <tspan x="164" dy="0">Larger service area</tspan>
+        <tspan x="164" dy="34">Remove airship parts</tspan>
+        <tspan x="164" dy="34">Cleansing foam</tspan>
+        <tspan x="164" dy="34">Overclocking</tspan>
+        <tspan x="164" dy="34">Beacon can help pop all</tspan>
+      </text>
+    </g>
+  </g>
+
+  <g transform="translate(120 1208)">
+    <rect class="panel" width="760" height="520"/>
+    <text x="36" y="62" class="section">Tower Machines</text>
+    <text x="42" y="118" class="body">
+      <tspan x="42" dy="0">Every tower has 3 upgrade paths.</tspan>
+    </text>
+
+    <g transform="translate(42 162)">
+      <rect class="mini" width="318" height="122"/>
+      <circle cx="54" cy="61" r="32" fill="#e8c75a"/>
+      <path d="M74 61 h60" stroke="#e8c75a" stroke-width="16" stroke-linecap="round"/>
+      <text x="152" y="52" class="label">Punch Tower</text>
+      <text x="152" y="88" class="small">Strong, fast, push</text>
+    </g>
+    <g transform="translate(398 162)">
+      <rect class="mini" width="318" height="122"/>
+      <circle cx="66" cy="61" r="34" fill="#34393d" stroke="#ff754f" stroke-width="6"/>
+      <path d="M52 44 l28 34 M80 44 l-28 34" stroke="#ff754f" stroke-width="8"/>
+      <text x="132" y="52" class="label">Bomb Machine</text>
+      <text x="132" y="88" class="small">Pops lead balls</text>
+    </g>
+    <g transform="translate(42 315)">
+      <rect class="mini" width="318" height="122"/>
+      <path d="M42 76 L118 44 L106 76 L118 108 Z" fill="#b9d5e1" stroke="#fff" stroke-width="4"/>
+      <text x="152" y="52" class="label">Dart Machine</text>
+      <text x="152" y="88" class="small">Sharp, fast</text>
+    </g>
+    <g transform="translate(398 315)">
+      <rect class="mini" width="318" height="122"/>
+      <path d="M72 35 C105 70 88 104 55 111 C33 91 41 61 72 35 Z" fill="#ff3e2f"/>
+      <text x="132" y="52" class="label">Hot Sauce</text>
+      <text x="132" y="88" class="small">All except camo</text>
+    </g>
+  </g>
+
+  <g transform="translate(920 1208)">
+    <rect class="panel" width="760" height="520"/>
+    <text x="36" y="62" class="section">Enemy Ball Types</text>
+    <g transform="translate(44 120)">
+      <circle cx="52" cy="52" r="42" fill="url(#metal)" stroke="#18252d" stroke-width="5"/>
+      <circle cx="38" cy="42" r="7" fill="#111"/>
+      <circle cx="66" cy="42" r="7" fill="#111"/>
+      <path d="M38 70 Q52 84 68 70" fill="none" stroke="#111" stroke-width="6"/>
+      <text x="124" y="44" class="label">Normal</text>
+      <text x="124" y="82" class="small">Most common ball</text>
+    </g>
+    <g transform="translate(408 120)">
+      <path d="M54 8 L104 96 H4 Z" fill="#9a62ff" stroke="#e0cfff" stroke-width="6"/>
+      <circle cx="40" cy="58" r="6" fill="#111"/>
+      <circle cx="68" cy="58" r="6" fill="#111"/>
+      <path d="M40 75 Q54 86 70 75" fill="none" stroke="#111" stroke-width="5"/>
+      <text x="124" y="44" class="label">Regrow</text>
+      <text x="124" y="82" class="small">Pyramid, grows layers</text>
+    </g>
+    <g transform="translate(44 250)">
+      <circle cx="52" cy="52" r="42" fill="#7b8387" stroke="#d7e1e3" stroke-width="6"/>
+      <text x="28" y="64" class="pill" fill="#111">Pb</text>
+      <text x="124" y="44" class="label">Lead</text>
+      <text x="124" y="82" class="small">Metal, sharp immune</text>
+    </g>
+    <g transform="translate(408 250)">
+      <circle cx="52" cy="52" r="42" fill="#f5f1df" stroke="#c7b681" stroke-width="8"/>
+      <path d="M18 42 h68 M24 66 h56" stroke="#c7b681" stroke-width="5"/>
+      <text x="124" y="44" class="label">Ceramic</text>
+      <text x="124" y="82" class="small">Tough, many hits</text>
+    </g>
+    <g transform="translate(44 382)">
+      <path d="M12 58 C28 18 106 18 122 58 L106 92 H28 Z" fill="#283640" stroke="#b9d5e1" stroke-width="6"/>
+      <rect x="48" y="28" width="38" height="34" rx="8" fill="#11181d" stroke="#ff754f" stroke-width="4"/>
+      <text x="160" y="44" class="label">Airship</text>
+      <text x="160" y="82" class="small">Drops ceramics</text>
+    </g>
+    <g transform="translate(408 382)">
+      <circle cx="52" cy="52" r="42" fill="#bff1ff" stroke="#f5feff" stroke-width="6"/>
+      <path d="M28 52 h48 M52 28 v48 M36 36 l32 32 M68 36 l-32 32" stroke="#2d8fc2" stroke-width="5" stroke-linecap="round"/>
+      <text x="124" y="44" class="label">Frozen</text>
+      <text x="124" y="82" class="small">Sharp immune</text>
+    </g>
+  </g>
+
+  <g transform="translate(120 1796)">
+    <rect class="panel" width="760" height="420"/>
+    <text x="36" y="62" class="section">Special Traits</text>
+    <text x="46" y="122" class="body">
+      <tspan x="46" dy="0">Camouflage can happen on many balls:</tspan>
+      <tspan x="46" dy="42">regrow, lead, ceramic, and more.</tspan>
+      <tspan x="46" dy="54">Some balls are invisible or hard to see.</tspan>
+      <tspan x="46" dy="42">Radar beacons reveal camo in range.</tspan>
+    </text>
+    <rect x="46" y="295" width="290" height="64" rx="24" fill="#9de8ff"/>
+    <text x="191" y="336" text-anchor="middle" class="pill">Radar scanner</text>
+    <rect x="370" y="295" width="290" height="64" rx="24" fill="#93f15f"/>
+    <text x="515" y="336" text-anchor="middle" class="pill">No enemy pets</text>
+  </g>
+
+  <g transform="translate(920 1796)">
+    <rect class="panel" width="760" height="420"/>
+    <text x="36" y="62" class="section">Immunity Cheat Sheet</text>
+    <text x="46" y="122" class="body">
+      <tspan x="46" dy="0">Lead: sharp does not work.</tspan>
+      <tspan x="46" dy="42">Frozen: sharp does not work.</tspan>
+      <tspan x="46" dy="54">Hot sauce pops all non-camo types.</tspan>
+      <tspan x="46" dy="42">Radar support lets it hit camo.</tspan>
+      <tspan x="46" dy="54">Explosion-immune: bombs do not work.</tspan>
+      <tspan x="46" dy="42">Super-immune: try darts.</tspan>
+    </text>
+  </g>
+
+  <g transform="translate(120 2258)">
+    <rect x="0" y="0" width="1560" height="88" rx="28" fill="#101a20" stroke="#41515b" stroke-width="4"/>
+    <text x="38" y="56" class="small">Open choices: What is Knowledge? Which tower sees camouflage first? What does Cleansing Foam remove? What pets do heroes get?</text>
+  </g>
+</svg>

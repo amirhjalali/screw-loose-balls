@@ -1,0 +1,111 @@
+{
+  "source": "tower-sheet-v1.png",
+  "cellWidth": 512,
+  "cellHeight": 512,
+  "columns": 3,
+  "rows": 2,
+  "sprites": {
+    "dart": {
+      "name": "Dart Machine",
+      "file": "tower-dart-v1.png",
+      "sheet": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 124,
+        "y": 85,
+        "w": 329,
+        "h": 427
+      },
+      "thumb": "tower-dart-thumb-v1.png"
+    },
+    "bomb": {
+      "name": "Bomb Machine",
+      "file": "tower-bomb-v1.png",
+      "sheet": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 70,
+        "y": 93,
+        "w": 345,
+        "h": 366
+      },
+      "thumb": "tower-bomb-thumb-v1.png"
+    },
+    "sauce": {
+      "name": "Hot Sauce Machine",
+      "file": "tower-sauce-v1.png",
+      "sheet": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 28,
+        "y": 82,
+        "w": 362,
+        "h": 377
+      },
+      "thumb": "tower-sauce-thumb-v1.png"
+    },
+    "missile": {
+      "name": "Missile Tower",
+      "file": "tower-missile-v1.png",
+      "sheet": {
+        "x": 0,
+        "y": 512,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 132,
+        "y": 0,
+        "w": 315,
+        "h": 418
+      },
+      "thumb": "tower-missile-thumb-v1.png"
+    },
+    "beacon": {
+      "name": "Beacon Radar",
+      "file": "tower-beacon-v1.png",
+      "sheet": {
+        "x": 512,
+        "y": 512,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 88,
+        "y": 50,
+        "w": 343,
+        "h": 366
+      },
+      "thumb": "tower-beacon-thumb-v1.png"
+    },
+    "punch": {
+      "name": "Punch Tower",
+      "file": "tower-punch-v1.png",
+      "sheet": {
+        "x": 1024,
+        "y": 512,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 72,
+        "y": 14,
+        "w": 308,
+        "h": 404
+      },
+      "thumb": "tower-punch-thumb-v1.png"
+    }
+  }
+}

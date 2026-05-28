@@ -1,0 +1,48 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Dev artifacts (screenshots, intermediate captures, etc.)
+artifacts/
+.playwright-cli/
+playwright-report/
+test-results/
+tmp/
+
+# Node
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs
+*.log
+
+# Intermediate sprite source / keyed working files (final v1/v2/v3 sheets are kept)
+assets/sprites/**/*-source-v*.png
+assets/sprites/**/*-raw.png
+assets/sprites/**/*-keyed*.png
+assets/sprites/**/*-no-despill.png
+assets/sprites/enemies-v2/enemy-airship-source-v1.png
+assets/sprites/enemies-v2/enemy-sheet-source-v2.png
+assets/sprites/enemies-v2/enemy-airship-keyed-v1.png
+assets/sprites/enemies-v2/enemy-sheet-keyed-v2.png
+
+# Intermediate intro working files (final stitched mp4 kept)
+assets/intro/clips/
+assets/intro/keyframes/
+assets/intro/thumbnails/
+assets/intro/final/qa/
+assets/intro/final/clip-*-normalized.mp4
+assets/intro/final/end-card.mp4

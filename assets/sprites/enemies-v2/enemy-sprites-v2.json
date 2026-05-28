@@ -1,0 +1,143 @@
+{
+  "source": "enemy-sheet-keyed-v2.png",
+  "cellWidth": 512,
+  "cellHeight": 512,
+  "columns": 3,
+  "rows": 2,
+  "sprites": {
+    "normal": {
+      "name": "Normal Loose-Screw Ball",
+      "file": "enemy-normal-v2.png",
+      "sourceCell": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 119,
+        "y": 87,
+        "w": 340,
+        "h": 375
+      },
+      "normalizedSize": {
+        "w": 216,
+        "h": 238
+      }
+    },
+    "regrow": {
+      "name": "Regrow Pyramid Ball",
+      "file": "enemy-regrow-v2.png",
+      "sourceCell": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 63,
+        "y": 97,
+        "w": 390,
+        "h": 375
+      },
+      "normalizedSize": {
+        "w": 238,
+        "h": 229
+      }
+    },
+    "lead": {
+      "name": "Lead Metal Ball",
+      "file": "enemy-lead-v2.png",
+      "sourceCell": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 47,
+        "y": 101,
+        "w": 331,
+        "h": 362
+      },
+      "normalizedSize": {
+        "w": 218,
+        "h": 238
+      }
+    },
+    "ceramic": {
+      "name": "Ceramic Ball",
+      "file": "enemy-ceramic-v2.png",
+      "sourceCell": {
+        "x": 0,
+        "y": 512,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 119,
+        "y": 16,
+        "w": 335,
+        "h": 374
+      },
+      "normalizedSize": {
+        "w": 213,
+        "h": 238
+      }
+    },
+    "frozen": {
+      "name": "Frozen Ball",
+      "file": "enemy-frozen-v2.png",
+      "sourceCell": {
+        "x": 512,
+        "y": 512,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 51,
+        "y": 16,
+        "w": 377,
+        "h": 396
+      },
+      "normalizedSize": {
+        "w": 227,
+        "h": 238
+      }
+    },
+    "camouflage": {
+      "name": "Camouflage Ball",
+      "file": "enemy-camouflage-v2.png",
+      "sourceCell": {
+        "x": 1024,
+        "y": 512,
+        "w": 512,
+        "h": 512
+      },
+      "contentBounds": {
+        "x": 27,
+        "y": 16,
+        "w": 347,
+        "h": 376
+      },
+      "normalizedSize": {
+        "w": 220,
+        "h": 238
+      }
+    },
+    "airship": {
+      "name": "Airship Boss",
+      "file": "enemy-airship-v1.png",
+      "contentBounds": {
+        "x": 318,
+        "y": 39,
+        "w": 882,
+        "h": 932
+      },
+      "normalizedSize": {
+        "w": 462,
+        "h": 488
+      }
+    }
+  }
+}

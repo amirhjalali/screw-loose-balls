@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "id": "trampoline-map-v1",
+  "image": "assets/maps/trampoline-map-generated-v1.png",
+  "guideImage": "assets/maps/trampoline-map-v1-guide.png",
+  "artStatus": "generated-v1-wired",
+  "artWorkflow": {
+    "layoutAuthority": "manifest",
+    "compositionReference": "assets/maps/trampoline-map-v1-guide.png",
+    "promptDoc": "docs/map-art-prompts.md",
+    "integrationRule": "Regenerate art to fit this manifest; do not move route or pad data to fit a drifting image."
+  },
+  "world": {
+    "width": 1619,
+    "height": 972
+  },
+  "route": [
+    [70, 420],
+    [145, 430],
+    [260, 460],
+    [380, 468],
+    [515, 446],
+    [635, 414],
+    [730, 386],
+    [850, 388],
+    [975, 422],
+    [1085, 466],
+    [1200, 492],
+    [1305, 480],
+    [1405, 428],
+    [1488, 352],
+    [1568, 318],
+    [1638, 312]
+  ],
+  "pathLength": 1649,
+  "buildPads": [
+    {
+      "id": "upper-left",
+      "x": 450,
+      "y": 300,
+      "nearestPath": { "x": 475, "y": 453, "distance": 155, "pathDistance": 411 }
+    },
+    {
+      "id": "upper-center",
+      "x": 720,
+      "y": 255,
+      "nearestPath": { "x": 730, "y": 386, "distance": 131, "pathDistance": 675 }
+    },
+    {
+      "id": "upper-right",
+      "x": 985,
+      "y": 255,
+      "nearestPath": { "x": 942, "y": 413, "distance": 164, "pathDistance": 890 }
+    },
+    {
+      "id": "lower-left",
+      "x": 360,
+      "y": 585,
+      "nearestPath": { "x": 368, "y": 467, "distance": 118, "pathDistance": 303 }
+    },
+    {
+      "id": "center-low",
+      "x": 650,
+      "y": 555,
+      "nearestPath": { "x": 614, "y": 420, "distance": 140, "pathDistance": 554 }
+    },
+    {
+      "id": "right-mid",
+      "x": 965,
+      "y": 600,
+      "nearestPath": { "x": 1028, "y": 443, "distance": 169, "pathDistance": 981 }
+    },
+    {
+      "id": "right-low",
+      "x": 1225,
+      "y": 625,
+      "nearestPath": { "x": 1210, "y": 491, "distance": 135, "pathDistance": 1170 }
+    }
+  ],
+  "padRadius": 96,
+  "towerGroundAnchorY": 42,
+  "entrance": {
+    "x": 0,
+    "y": 342,
+    "width": 120,
+    "height": 156
+  },
+  "exit": {
+    "x": 1515,
+    "y": 248,
+    "width": 104,
+    "height": 136
+  },
+  "noBuildDecorations": [],
+  "theme": {
+    "guideTitle": "Level 2 Trampoline Bounce route/socket guide",
+    "guideFooter": "GPT Image 2 reference: paint a backyard trampoline level but preserve the road, sockets, entrance, and exit exactly.",
+    "guideBackground": "#28785a",
+    "guideGrid": "#34936d"
+  },
+  "generationRules": [
+    "Use this route and these pad centers as the guide for generated trampoline map art.",
+    "Paint the trampoline as generated map art away from the road and sockets, not as canvas placeholder furniture.",
+    "Do not move the painted road or sockets away from these coordinates.",
+    "Keep each build socket visible as a grounded circular/elliptical platform.",
+    "Do not paint props over the route or sockets."
+  ]
+}

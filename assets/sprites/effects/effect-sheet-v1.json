@@ -1,0 +1,40 @@
+{
+  "image": "assets/sprites/effects/effect-sheet-v1.png",
+  "frameWidth": 256,
+  "frameHeight": 256,
+  "frames": 8,
+  "rows": {
+    "dart": {
+      "row": 0,
+      "label": "sharp dart streak"
+    },
+    "bomb": {
+      "row": 1,
+      "label": "bomb explosion"
+    },
+    "sauce": {
+      "row": 2,
+      "label": "hot sauce splash"
+    },
+    "missile": {
+      "row": 3,
+      "label": "rocket missile"
+    },
+    "punch": {
+      "row": 4,
+      "label": "punch impact"
+    },
+    "pop": {
+      "row": 5,
+      "label": "ball pop burst"
+    },
+    "regrow": {
+      "row": 6,
+      "label": "regrow swirl"
+    },
+    "liam": {
+      "row": 7,
+      "label": "liam blowback wave"
+    }
+  }
+}

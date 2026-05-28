@@ -1,0 +1,36 @@
+{
+  "image": "assets/sprites/enemies-v2/enemy-roll-sheet-v1.png",
+  "frameWidth": 256,
+  "frameHeight": 256,
+  "frames": 8,
+  "rows": {
+    "normal": {
+      "row": 0,
+      "mode": "roll"
+    },
+    "regrow": {
+      "row": 1,
+      "mode": "wobble"
+    },
+    "lead": {
+      "row": 2,
+      "mode": "roll"
+    },
+    "ceramic": {
+      "row": 3,
+      "mode": "roll"
+    },
+    "frozen": {
+      "row": 4,
+      "mode": "wobble"
+    },
+    "camouflage": {
+      "row": 5,
+      "mode": "roll"
+    },
+    "airship": {
+      "row": 6,
+      "mode": "hover"
+    }
+  }
+}

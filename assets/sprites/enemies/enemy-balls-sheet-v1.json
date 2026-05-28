@@ -1,0 +1,41 @@
+{
+  "image": "enemy-balls-sheet-v1.png",
+  "source": "enemy-balls-sheet-source-v1.png",
+  "columns": 4,
+  "rows": 6,
+  "frameCountPerRow": 4,
+  "frameWidth": 313.5,
+  "frameHeight": 209,
+  "enemies": [
+    {
+      "id": "normal",
+      "row": 0,
+      "name": "Normal Loose-Screw Ball"
+    },
+    {
+      "id": "regrow",
+      "row": 1,
+      "name": "Regrow Pyramid Ball"
+    },
+    {
+      "id": "lead",
+      "row": 2,
+      "name": "Lead Metal Ball"
+    },
+    {
+      "id": "ceramic",
+      "row": 3,
+      "name": "Ceramic Ball"
+    },
+    {
+      "id": "frozen",
+      "row": 4,
+      "name": "Frozen Ball"
+    },
+    {
+      "id": "camouflage",
+      "row": 5,
+      "name": "Camouflage Ball"
+    }
+  ]
+}
