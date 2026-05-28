@@ -195,8 +195,17 @@
     .level-option .stars {
       margin-top: 5px;
       color: var(--gold);
+      font-size: 15px;
+      letter-spacing: 2px;
+    }
+
+    .total-stars {
+      margin-left: 8px;
+      color: var(--gold);
       font-size: 13px;
+      font-weight: 1000;
       letter-spacing: 1px;
+      text-transform: none;
     }
 
     .difficulty-option strong,
@@ -885,6 +894,55 @@
       z-index: 30;
     }
 
+    .pause-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(4, 9, 14, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 220ms ease, visibility 220ms ease;
+      pointer-events: none;
+      z-index: 18;
+    }
+
+    .pause-overlay.visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: none;
+    }
+
+    .pause-card {
+      padding: 28px 36px;
+      border: 2px solid rgba(201, 235, 244, 0.28);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(20, 31, 40, 0.92), rgba(7, 13, 19, 0.92));
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.45);
+      text-align: center;
+      transform: scale(0.96);
+      transition: transform 220ms cubic-bezier(0.4, 1.4, 0.6, 1);
+    }
+
+    .pause-overlay.visible .pause-card {
+      transform: scale(1);
+    }
+
+    .pause-card h2 {
+      margin: 12px 0 8px;
+      font-size: 30px;
+      letter-spacing: 1px;
+    }
+
+    .pause-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
     .modal-stars {
       display: flex;
       justify-content: center;
@@ -1362,7 +1420,7 @@
     <span class="badge">Ready</span>
     <h1>Start The Defense</h1>
     <p>Start in the garden, unlock the trampoline, then defend inside the house.</p>
-    <div class="level-title">Campaign Level</div>
+    <div class="level-title">Campaign Level <span class="total-stars" id="totalStars"></span></div>
     <div class="level-selector" id="levelSelector" aria-label="Campaign level"></div>
     <div class="difficulty-title">Difficulty</div>
     <div class="difficulty-selector" id="difficultySelector" aria-label="Difficulty">
@@ -1387,6 +1445,14 @@
   </section>
 
   <button class="skip-now" id="skipNow">Skip Intro</button>
+
+  <div class="pause-overlay" id="pauseOverlay" aria-hidden="true">
+    <div class="pause-card">
+      <span class="badge">Paused</span>
+      <h2>Take a breath.</h2>
+      <p>Tap Resume to keep defending the trail.</p>
+    </div>
+  </div>
 
   <div class="status" id="status">Choose Watch Intro or Skip Intro.</div>
 
@@ -1962,8 +2028,13 @@
 
     function levelStarText(levelId) {
       const stars = Math.max(0, Math.min(3, Number(game.bestStars[levelId]) || 0));
-      if (!stars) return "No stars yet";
-      return `${"*".repeat(stars)}${".".repeat(3 - stars)}`;
+      const filled = "★".repeat(stars);
+      const empty = "☆".repeat(3 - stars);
+      return filled + empty;
+    }
+
+    function totalEarnedStars() {
+      return campaignLevels.reduce((sum, level) => sum + (Math.max(0, Math.min(3, Number(game.bestStars[level.id]) || 0))), 0);
     }
 
     function earnedStarsForWin() {
@@ -1993,6 +2064,12 @@
         button.addEventListener("click", () => selectLevel(index));
         selector.appendChild(button);
       });
+      const totalEl = document.getElementById("totalStars");
+      if (totalEl) {
+        const total = totalEarnedStars();
+        const max = campaignLevels.length * 3;
+        totalEl.textContent = total > 0 ? `${"★".repeat(Math.min(3, Math.ceil(total / max * 3)))}  ${total} / ${max} stars` : `0 / ${max} stars`;
+      }
     }
 
     function selectLevel(index) {
@@ -2828,6 +2905,8 @@
       game.paused = !game.paused;
       game.lastTime = performance.now();
       setStatus(game.paused ? "Paused. Tap Resume when ready." : "Back to the defense.");
+      const overlay = document.getElementById("pauseOverlay");
+      if (overlay) overlay.classList.toggle("visible", game.paused);
       updateHud();
     }
 
@@ -3920,6 +3999,7 @@
             game.stats.wavesCleared = (game.stats.wavesCleared || 0) + 1;
             game.stats.coinsEarned = (game.stats.coinsEarned || 0) + bonus;
           }
+          spawnConfetti(40);
           const nextWave = levelWaves[game.wave];
           setStatus(`Wave ${game.wave} cleared. Bonus $${bonus}. Next: ${nextWave.name}.`);
           updateTowerPanel();
@@ -3933,6 +4013,9 @@
       game.running = false;
       game.won = won;
       game.lost = !won;
+      game.paused = false;
+      const pauseOverlay = document.getElementById("pauseOverlay");
+      if (pauseOverlay) pauseOverlay.classList.remove("visible");
       playSound(won ? "win" : "lose");
       stopMusic(won ? 0.6 : 1.2);
       const level = currentLevel();

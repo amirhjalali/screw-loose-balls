@@ -2,7 +2,7 @@
 
 A silly, slapstick 2D tower defense game that runs entirely in the browser. Loose-screw balls roll out of the house, through the garden, and try to escape — your job is to stop them with darts, bombs, hot sauce, an engineer named Adrian, and two heroes (Liam the basketball player and Hacker Hossein).
 
-**Play it locally:** open `index.html` in a modern browser. No build step required.
+**[▶ Play it now](https://amirhjalali.github.io/screw-loose-balls/)** &nbsp;·&nbsp; Or run it locally — just open `index.html` in a modern browser. No build step required.
 
 ## Features
 
