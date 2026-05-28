@@ -885,6 +885,82 @@
       z-index: 30;
     }
 
+    .modal-stars {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 10px 0 6px;
+      min-height: 56px;
+    }
+
+    .modal-stars .star {
+      display: inline-block;
+      width: 52px;
+      height: 52px;
+      background: radial-gradient(circle at 50% 42%, #fff5a8 0%, #ffd84a 38%, #c98a18 78%, #6a4308 100%);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+      transform: scale(0);
+      animation: starPop 460ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .modal-stars .star.star-2 { animation-delay: 160ms; }
+    .modal-stars .star.star-3 { animation-delay: 320ms; }
+
+    .modal-stars .star.empty {
+      background: rgba(255, 255, 255, 0.07);
+      filter: none;
+      animation: none;
+      transform: scale(0.86);
+      opacity: 0.55;
+    }
+
+    @keyframes starPop {
+      0% { transform: scale(0) rotate(-30deg); }
+      60% { transform: scale(1.15) rotate(8deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .modal-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px 14px;
+      margin: 12px auto 18px;
+      max-width: 540px;
+      padding: 14px 16px;
+      border: 1px solid rgba(201, 235, 244, 0.16);
+      border-radius: 14px;
+      background: rgba(7, 14, 20, 0.5);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .modal-stats:empty { display: none; }
+
+    .modal-stats .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: center;
+    }
+
+    .modal-stats .stat-label {
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #9fc6d6;
+    }
+
+    .modal-stats .stat-value {
+      font-size: 22px;
+      color: var(--ink);
+    }
+
+    .modal-stats .stat-value.gold { color: var(--gold); }
+    .modal-stats .stat-value.green { color: var(--green); }
+    .modal-stats .stat-value.red { color: var(--red); }
+
     @media (hover: none) {
       button:hover {
         filter: none;
@@ -926,7 +1002,7 @@
       }
 
       .wave-preview {
-        top: calc(62px + var(--safe-top));
+        top: calc(104px + var(--safe-top));
         left: calc(10px + var(--safe-left));
         width: 318px;
         padding: 7px 8px;
@@ -1301,8 +1377,13 @@
   <section class="game-modal hidden-panel" id="gameModal">
     <span class="badge" id="gameModalBadge">Level 1</span>
     <h1 id="gameModalTitle">Garden Defended</h1>
+    <div class="modal-stars" id="gameModalStars" aria-hidden="true"></div>
     <p id="gameModalText">Nice work.</p>
-    <button id="restartGame">Play Again</button>
+    <div class="modal-stats" id="gameModalStats"></div>
+    <div class="actions">
+      <button class="secondary" id="modalMenuButton">Menu</button>
+      <button id="restartGame">Play Again</button>
+    </div>
   </section>
 
   <button class="skip-now" id="skipNow">Skip Intro</button>
@@ -1721,6 +1802,12 @@
       soundEnabled: true,
       audioCtx: null,
       soundThrottle: {},
+      musicNodes: null,
+      musicIntensity: 0,
+      musicTargetIntensity: 0,
+      stats: { towersBuilt: 0, ballsPopped: 0, ballsEscaped: 0, coinsEarned: 0, livesLost: 0, wavesCleared: 0 },
+      shake: { time: 0, magnitude: 0 },
+      confetti: [],
       wavePreviewKey: "",
       mapImage: new Image(),
       mapImages: {},
@@ -1767,6 +1854,8 @@
       video.addEventListener("ended", () => showEndPanel("Intro complete. The Start Game button is ready."));
       document.getElementById("startGame").addEventListener("click", startGame);
       document.getElementById("restartGame").addEventListener("click", handleModalAction);
+      const modalMenuBtn = document.getElementById("modalMenuButton");
+      if (modalMenuBtn) modalMenuBtn.addEventListener("click", returnToMenu);
       document.getElementById("nextWave").addEventListener("click", startWave);
       document.getElementById("liamPower").addEventListener("click", useLiamPower);
       document.getElementById("knowledgePower").addEventListener("click", buyLiamKnowledge);
@@ -2026,11 +2115,146 @@
       }
     }
 
+    function startMusic() {
+      if (!game.soundEnabled) return;
+      unlockAudio();
+      if (!game.audioCtx || game.musicNodes) return;
+      const ctxAudio = game.audioCtx;
+      const now = ctxAudio.currentTime;
+      const masterGain = ctxAudio.createGain();
+      masterGain.gain.value = 0;
+      masterGain.gain.linearRampToValueAtTime(0.0001, now);
+      masterGain.gain.linearRampToValueAtTime(0.045, now + 1.6);
+      masterGain.connect(ctxAudio.destination);
+
+      const padFilter = ctxAudio.createBiquadFilter();
+      padFilter.type = "lowpass";
+      padFilter.frequency.value = 1200;
+      padFilter.Q.value = 0.7;
+      padFilter.connect(masterGain);
+
+      const chord = [196, 247, 294, 392];
+      const oscillators = chord.map((freq) => {
+        const osc = ctxAudio.createOscillator();
+        osc.type = "sawtooth";
+        osc.frequency.value = freq;
+        const detune = ctxAudio.createOscillator();
+        detune.type = "sine";
+        detune.frequency.value = 0.12 + Math.random() * 0.08;
+        const detuneGain = ctxAudio.createGain();
+        detuneGain.gain.value = 5.5;
+        detune.connect(detuneGain);
+        detuneGain.connect(osc.detune);
+        const voiceGain = ctxAudio.createGain();
+        voiceGain.gain.value = 0.18 / chord.length;
+        osc.connect(voiceGain);
+        voiceGain.connect(padFilter);
+        osc.start(now);
+        detune.start(now);
+        return { osc, detune, voiceGain };
+      });
+
+      const arpFilter = ctxAudio.createBiquadFilter();
+      arpFilter.type = "bandpass";
+      arpFilter.frequency.value = 1800;
+      arpFilter.Q.value = 0.9;
+      const arpGain = ctxAudio.createGain();
+      arpGain.gain.value = 0;
+      arpFilter.connect(arpGain);
+      arpGain.connect(masterGain);
+
+      const arpNotes = [392, 494, 587, 740, 587, 494];
+      let arpStep = 0;
+      const arpInterval = setInterval(() => {
+        if (!game.musicNodes) return;
+        const intensity = game.musicIntensity || 0;
+        if (intensity < 0.05) return;
+        const t = ctxAudio.currentTime;
+        const osc = ctxAudio.createOscillator();
+        osc.type = "triangle";
+        osc.frequency.value = arpNotes[arpStep % arpNotes.length];
+        const env = ctxAudio.createGain();
+        env.gain.value = 0;
+        env.gain.linearRampToValueAtTime(0.07 * intensity, t + 0.012);
+        env.gain.exponentialRampToValueAtTime(0.0001, t + 0.36);
+        osc.connect(env);
+        env.connect(arpFilter);
+        osc.start(t);
+        osc.stop(t + 0.4);
+        arpStep += 1;
+      }, 280);
+
+      const kickInterval = setInterval(() => {
+        if (!game.musicNodes) return;
+        const intensity = game.musicIntensity || 0;
+        if (intensity < 0.4) return;
+        const t = ctxAudio.currentTime;
+        const osc = ctxAudio.createOscillator();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(110, t);
+        osc.frequency.exponentialRampToValueAtTime(40, t + 0.18);
+        const env = ctxAudio.createGain();
+        env.gain.value = 0;
+        env.gain.linearRampToValueAtTime(0.18 * intensity, t + 0.008);
+        env.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+        osc.connect(env);
+        env.connect(masterGain);
+        osc.start(t);
+        osc.stop(t + 0.24);
+      }, 560);
+
+      game.musicNodes = { masterGain, padFilter, arpFilter, arpGain, oscillators, arpInterval, kickInterval };
+      game.musicTargetIntensity = 0.2;
+    }
+
+    function stopMusic(fadeSeconds = 0.8) {
+      if (!game.musicNodes || !game.audioCtx) return;
+      const nodes = game.musicNodes;
+      const now = game.audioCtx.currentTime;
+      try {
+        nodes.masterGain.gain.cancelScheduledValues(now);
+        nodes.masterGain.gain.setValueAtTime(nodes.masterGain.gain.value, now);
+        nodes.masterGain.gain.linearRampToValueAtTime(0.0001, now + fadeSeconds);
+      } catch (e) {}
+      clearInterval(nodes.arpInterval);
+      clearInterval(nodes.kickInterval);
+      setTimeout(() => {
+        try {
+          nodes.oscillators.forEach((v) => { v.osc.stop(); v.detune.stop(); });
+        } catch (e) {}
+      }, fadeSeconds * 1000 + 50);
+      game.musicNodes = null;
+      game.musicIntensity = 0;
+      game.musicTargetIntensity = 0;
+    }
+
+    function updateMusicIntensity(dt) {
+      if (!game.musicNodes) return;
+      let target = 0.18;
+      if (game.running && !game.won && !game.lost) {
+        target = game.waveActive ? 0.65 : 0.22;
+        const config = currentWaveConfig();
+        if (game.waveActive && config && config.boss) target = 0.95;
+        if (game.paused) target = 0.12;
+      }
+      game.musicTargetIntensity = target;
+      const diff = target - game.musicIntensity;
+      game.musicIntensity += diff * Math.min(1, dt * 1.6);
+      const nodes = game.musicNodes;
+      if (nodes && nodes.padFilter) {
+        const cutoff = 800 + game.musicIntensity * 2400;
+        try { nodes.padFilter.frequency.setTargetAtTime(cutoff, game.audioCtx.currentTime, 0.2); } catch (e) {}
+      }
+    }
+
     function toggleSound() {
       game.soundEnabled = !game.soundEnabled;
       if (game.soundEnabled) {
         unlockAudio();
         playSound("build");
+        if (game.running && !game.won && !game.lost) startMusic();
+      } else {
+        stopMusic(0.4);
       }
       saveProgress();
       setStatus(game.soundEnabled ? "Sound on." : "Sound muted.");
@@ -2227,11 +2451,15 @@
       const viewportAspect = width / playableHeight;
       const landscapeFillScale = width / world.width;
       const landscapeCropCap = playableHeight / (world.height * 0.76);
+      const landscapeMildCropScale = Math.min(
+        playableHeight / world.height,
+        width / (world.width * 0.96)
+      );
       const scale = isPortrait
         ? Math.max(containScale, portraitZoom)
         : viewportAspect > worldAspect
           ? Math.max(containScale, Math.min(landscapeFillScale, landscapeCropCap))
-          : containScale;
+          : Math.max(containScale, landscapeMildCropScale);
       const x = (width - world.width * scale) / 2;
       const verticalSlack = playableHeight - world.height * scale;
       const y = isPortrait
@@ -2282,6 +2510,9 @@
       game.lastTime = performance.now();
       game.time = 0;
       game.nextFloatTextId = 1;
+      game.stats = { towersBuilt: 0, ballsPopped: 0, ballsEscaped: 0, coinsEarned: 0, livesLost: 0, wavesCleared: 0 };
+      game.shake = { time: 0, magnitude: 0 };
+      game.confetti = [];
       game.liamCooldown = 0;
       game.liamAuraTimer = 0;
       game.liamAuraPulse = 0;
@@ -2320,6 +2551,7 @@
       renderLevelSelector();
       saveProgress();
       resetGame();
+      startMusic();
     }
 
     async function startGame() {
@@ -2333,6 +2565,7 @@
       resizeGame();
       resetGame();
       requestAnimationFrame(loop);
+      startMusic();
     }
 
     function startWave() {
@@ -2905,6 +3138,7 @@
       const tower = addTowerAtPad(game.selectedTower, pad.id, 0);
       selectPlacedTower(tower);
       playSound("build");
+      if (game.stats) game.stats.towersBuilt = (game.stats.towersBuilt || 0) + 1;
       setStatus(`${type.name} built.`);
       updateHud();
     }
@@ -3599,12 +3833,22 @@
             playSound("escape");
             setStatus("The airship reached the exit.");
             addFloatText("ALL LIVES!", enemy.x, enemy.y - enemy.size * 0.58, "red", 1.15);
+            triggerShake(18, 0.55);
+            if (game.stats) {
+              game.stats.ballsEscaped = (game.stats.ballsEscaped || 0) + 1;
+              game.stats.livesLost = (game.stats.livesLost || 0) + 999;
+            }
           } else {
             const lifeDamage = enemy.lifeDamage || 1;
             game.lives -= lifeDamage;
             playSound("escape");
             setStatus("A ball reached the exit.");
             addFloatText(`-${lifeDamage} LIFE`, enemy.x, enemy.y - enemy.size * 0.48, "red", 1.0);
+            triggerShake(Math.min(12, 4 + lifeDamage * 2), 0.35);
+            if (game.stats) {
+              game.stats.ballsEscaped = (game.stats.ballsEscaped || 0) + 1;
+              game.stats.livesLost = (game.stats.livesLost || 0) + lifeDamage;
+            }
           }
         }
       });
@@ -3634,6 +3878,10 @@
           game.effects.push({ kind: "pop", x: enemy.x, y: enemy.y, age: 0, duration: 0.35 });
           addFloatText(`+$${enemy.reward}`, enemy.x, enemy.y - enemy.size * 0.62, "green", 0.85);
           playSound("pop");
+          if (game.stats) {
+            game.stats.ballsPopped = (game.stats.ballsPopped || 0) + 1;
+            game.stats.coinsEarned = (game.stats.coinsEarned || 0) + (enemy.reward || 0);
+          }
           const drops = enemyTypes[enemy.type]?.drops || [];
           drops.forEach((typeId, index) => {
             const child = createEnemy(typeId, Math.max(0, enemy.distance - 32 * (index + 1)));
@@ -3668,6 +3916,10 @@
           game.coins += bonus;
           game.effects.push({ kind: "pop", x: world.width / 2, y: 112, age: 0, duration: 0.55, size: 132 });
           addFloatText(`Wave +$${bonus}`, world.width / 2, 138, "gold", 1.25);
+          if (game.stats) {
+            game.stats.wavesCleared = (game.stats.wavesCleared || 0) + 1;
+            game.stats.coinsEarned = (game.stats.coinsEarned || 0) + bonus;
+          }
           const nextWave = levelWaves[game.wave];
           setStatus(`Wave ${game.wave} cleared. Bonus $${bonus}. Next: ${nextWave.name}.`);
           updateTowerPanel();
@@ -3682,8 +3934,10 @@
       game.won = won;
       game.lost = !won;
       playSound(won ? "win" : "lose");
+      stopMusic(won ? 0.6 : 1.2);
       const level = currentLevel();
       const hasNextLevel = won && game.levelIndex < campaignLevels.length - 1;
+      const campaignComplete = won && !hasNextLevel;
       game.pendingNextLevel = Boolean(hasNextLevel);
       const earnedStars = won ? earnedStarsForWin() : 0;
       if (won) {
@@ -3691,16 +3945,79 @@
         game.maxUnlockedLevel = Math.max(game.maxUnlockedLevel, Math.min(game.levelIndex + 1, campaignLevels.length - 1));
         saveProgress();
         renderLevelSelector();
+        spawnConfetti(campaignComplete ? 260 : 150);
+        if (campaignComplete) {
+          setTimeout(() => spawnConfetti(180), 350);
+          setTimeout(() => spawnConfetti(180), 700);
+        }
+        triggerShake(4, 0.35);
+      } else {
+        triggerShake(14, 0.5);
       }
-      document.getElementById("gameModalBadge").textContent = won ? level.label : "Try Again";
-      document.getElementById("gameModalTitle").textContent = won ? level.winTitle : "The Balls Escaped";
-      document.getElementById("gameModalText").textContent = won
-        ? hasNextLevel
-          ? `${"*".repeat(earnedStars)} earned. ${campaignLevels[game.levelIndex + 1].label} unlocked: ${campaignLevels[game.levelIndex + 1].name}.`
-          : `${"*".repeat(earnedStars)} earned. All current campaign levels are defended.`
-        : "Rebuild your towers and stop the next wave.";
-      document.getElementById("restartGame").textContent = hasNextLevel ? "Next Level" : won ? "Play Again" : "Try Again";
+      const badgeText = won
+        ? campaignComplete ? "Campaign Complete!" : level.label
+        : "Try Again";
+      const titleText = won
+        ? campaignComplete ? "All Levels Defended!" : level.winTitle
+        : "The Balls Escaped";
+      document.getElementById("gameModalBadge").textContent = badgeText;
+      document.getElementById("gameModalTitle").textContent = titleText;
+
+      const starsContainer = document.getElementById("gameModalStars");
+      if (starsContainer) {
+        starsContainer.innerHTML = "";
+        const totalStars = 3;
+        for (let i = 0; i < totalStars; i++) {
+          const star = document.createElement("span");
+          star.className = "star" + (i < earnedStars ? ` star-${i + 1}` : " empty");
+          starsContainer.appendChild(star);
+        }
+      }
+
+      const statsContainer = document.getElementById("gameModalStats");
+      const stats = game.stats || {};
+      if (statsContainer) {
+        statsContainer.innerHTML = "";
+        const entries = [
+          { label: "Waves", value: `${stats.wavesCleared || 0}/${currentLevelWaves().length}`, color: won ? "green" : "" },
+          { label: "Balls Popped", value: stats.ballsPopped || 0, color: "green" },
+          { label: "Lives Saved", value: Math.max(0, Math.ceil(game.lives)), color: won ? "gold" : "red" },
+          { label: "Coins Earned", value: `$${Math.round(stats.coinsEarned || 0)}`, color: "gold" },
+          { label: "Towers Built", value: stats.towersBuilt || 0, color: "" },
+          { label: "Escaped", value: stats.ballsEscaped || 0, color: (stats.ballsEscaped || 0) > 0 ? "red" : "green" }
+        ];
+        entries.forEach((entry) => {
+          const wrap = document.createElement("div");
+          wrap.className = "stat";
+          const label = document.createElement("span");
+          label.className = "stat-label";
+          label.textContent = entry.label;
+          const value = document.createElement("span");
+          value.className = "stat-value" + (entry.color ? ` ${entry.color}` : "");
+          value.textContent = entry.value;
+          wrap.appendChild(label);
+          wrap.appendChild(value);
+          statsContainer.appendChild(wrap);
+        });
+      }
+
+      let modalText = "Rebuild your defenses and try the wave again.";
+      if (won && campaignComplete) modalText = "You defended every room. Try harder difficulty or replay your favorite level.";
+      else if (won && hasNextLevel) modalText = `${campaignLevels[game.levelIndex + 1].label} unlocked: ${campaignLevels[game.levelIndex + 1].name}.`;
+      document.getElementById("gameModalText").textContent = modalText;
+      document.getElementById("restartGame").textContent = hasNextLevel ? "Next Level" : won ? "Replay" : "Try Again";
       showFloatingPanel(document.getElementById("gameModal"));
+    }
+
+    function returnToMenu() {
+      hideFloatingPanel(document.getElementById("gameModal"));
+      game.confetti = [];
+      stopMusic(0.4);
+      const layer = document.getElementById("gameLayer");
+      if (layer) layer.classList.remove("ready");
+      dim.classList.remove("hidden");
+      showFloatingPanel(endPanel);
+      setStatus("Pick a level and difficulty.");
     }
 
     function updateHud() {
@@ -3772,7 +4089,15 @@
 
     function drawWorld() {
       ctx.save();
-      ctx.translate(viewport.x, viewport.y);
+      let shakeX = 0;
+      let shakeY = 0;
+      if (game.shake && game.shake.time > 0) {
+        const decay = game.shake.time;
+        const mag = (game.shake.magnitude || 0) * decay;
+        shakeX = (Math.random() - 0.5) * mag * 2;
+        shakeY = (Math.random() - 0.5) * mag * 2;
+      }
+      ctx.translate(viewport.x + shakeX, viewport.y + shakeY);
       ctx.scale(viewport.scale, viewport.scale);
       ctx.clearRect(-viewport.x / viewport.scale, -viewport.y / viewport.scale, viewport.width / viewport.scale, viewport.height / viewport.scale);
       drawGameplayMap();
@@ -3785,6 +4110,66 @@
       drawBossWarning();
       drawPlacementPreview();
       ctx.restore();
+      drawConfetti();
+    }
+
+    function drawConfetti() {
+      if (!game.confetti || game.confetti.length === 0) return;
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      const w = canvas.width;
+      const h = canvas.height;
+      game.confetti.forEach((piece) => {
+        const x = piece.x * w;
+        const y = piece.y * h;
+        const alpha = Math.max(0, Math.min(1, piece.life / piece.maxLife));
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = piece.color;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(piece.rotation);
+        ctx.fillRect(-piece.size * 0.5, -piece.size * 0.25, piece.size, piece.size * 0.5);
+        ctx.restore();
+      });
+      ctx.restore();
+    }
+
+    function spawnConfetti(count = 140) {
+      const palette = ["#ffd84a", "#88f15b", "#1da7ff", "#ff674f", "#f86bff", "#9fffe2", "#ffffff"];
+      for (let i = 0; i < count; i++) {
+        game.confetti.push({
+          x: 0.5 + (Math.random() - 0.5) * 0.05,
+          y: 0.4 + (Math.random() - 0.5) * 0.05,
+          vx: (Math.random() - 0.5) * 0.0042,
+          vy: -0.0026 - Math.random() * 0.0042,
+          gravity: 0.000035 + Math.random() * 0.00003,
+          rotation: Math.random() * Math.PI * 2,
+          spin: (Math.random() - 0.5) * 0.22,
+          size: 8 + Math.random() * 10,
+          color: palette[Math.floor(Math.random() * palette.length)],
+          life: 1,
+          maxLife: 1.4 + Math.random() * 1.2
+        });
+      }
+    }
+
+    function updateConfetti(dt) {
+      if (!game.confetti || game.confetti.length === 0) return;
+      game.confetti.forEach((piece) => {
+        piece.vy += piece.gravity * dt * 60;
+        piece.x += piece.vx * dt * 60;
+        piece.y += piece.vy * dt * 60;
+        piece.rotation += piece.spin * dt * 60;
+        piece.life -= dt / piece.maxLife;
+      });
+      game.confetti = game.confetti.filter((piece) => piece.life > 0 && piece.y < 1.4);
+    }
+
+    function triggerShake(magnitude, duration) {
+      const mag = Math.max(game.shake.magnitude || 0, magnitude);
+      const time = Math.max(game.shake.time || 0, duration);
+      game.shake.magnitude = mag;
+      game.shake.time = time;
     }
 
     function noiseValue(index, min, max) {
@@ -5364,6 +5749,12 @@
       const dt = Math.min(0.05, (now - game.lastTime) / 1000 || 0);
       game.lastTime = now;
       update(dt * gameSpeed());
+      if (game.shake && game.shake.time > 0) {
+        game.shake.time = Math.max(0, game.shake.time - dt);
+        if (game.shake.time === 0) game.shake.magnitude = 0;
+      }
+      updateConfetti(dt);
+      updateMusicIntensity(dt);
       drawWorld();
       requestAnimationFrame(loop);
     }
